@@ -1,8 +1,10 @@
 package pl.edu.agh.sr.ExchangeOffice;
 
 import io.grpc.ServerBuilder;
+import sr.grpc.gen.CurrencyCode;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.logging.Logger;
 
 public class Server {
@@ -49,9 +51,12 @@ public class Server {
      * Main launches the server from the command line.
      */
     public static void main(String[] args) throws IOException, InterruptedException {
+        Thread exchangeRatesMonitorThread = new Thread(new ExchangeRatesMonitor());
+        exchangeRatesMonitorThread.start();
         Server server = new Server();
         server.start();
         server.blockUntilShutdown();
     }
+
 
 }

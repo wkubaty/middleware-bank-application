@@ -35,9 +35,13 @@ public class ExchangeOfficeClient {
         while (response.hasNext()){
             ExchangeRateResponse exchangeRateResponse = response.next();
             List<Currency> currenciesList = exchangeRateResponse.getCurrenciesList();
-            currenciesList.forEach(currency ->
-                    exchangeRates.put(currency.getCurrencyCode(), new BigDecimal(currency.getValue())));
-            System.out.println("Got changed exchange rates: ");
+            System.out.println("updated currency: ");
+            currenciesList.forEach(currency -> {
+                System.out.println(currency.getCurrencyCode());
+                exchangeRates.put(currency.getCurrencyCode(), new BigDecimal(currency.getValue()));
+            });
+            System.out.println("Current exchange rates: ");
+
             exchangeRates.forEach((currencyCode, value) ->
                     System.out.println(currencyCode.name() + ": " + value));
 
