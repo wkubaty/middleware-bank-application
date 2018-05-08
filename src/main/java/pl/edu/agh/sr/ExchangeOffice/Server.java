@@ -1,10 +1,7 @@
 package pl.edu.agh.sr.ExchangeOffice;
 
 import io.grpc.ServerBuilder;
-import sr.grpc.gen.CurrencyCode;
-
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.logging.Logger;
 
 public class Server {
@@ -14,13 +11,12 @@ public class Server {
     private int port = 55555;
     private io.grpc.Server server;
 
-    private void start() throws IOException
-    {
+    private void start() throws IOException {
         server = ServerBuilder.forPort(port)
                 .addService(new ExchangeOfficeImpl())
                 .build()
                 .start();
-        logger.info("Server started, listening on " + port);
+        logger.info("BankServer started, listening on " + port);
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
