@@ -13,7 +13,7 @@ public class PremiumBankAccountImpl extends StandardBankAccountImpl implements P
     }
 
     @Override
-    public LoanInfo getLoanInfo(String GUID, double amount, int months, CurrencyCode currencyCode, Current current) throws WrongGUIDException {
+    public LoanInfo getLoanInfo(String GUID, double amount, int months, CurrencyCode currencyCode, Current current) throws WrongGUIDException, UnsupportedCurrencyException {
         if(super.person.GUID.equals(GUID)) {
             double defaultCurrencyCost = amount *  LOAN_MONTHLY_COST;
             double chosenCurrencyCost = getLoanCostInChosenCurrency(amount, currencyCode) *  LOAN_MONTHLY_COST;
@@ -23,10 +23,15 @@ public class PremiumBankAccountImpl extends StandardBankAccountImpl implements P
             throw new WrongGUIDException();
         }
     }
-    private double getLoanCostInChosenCurrency(double amount, CurrencyCode currencyCode){
+    private double getLoanCostInChosenCurrency(double amount, CurrencyCode currencyCode) throws  UnsupportedCurrencyException{
         if(currencyCode.equals(DEFAULT_CURRENCY.toString())){
             return amount;
         }
-        return amount / ExchangeOfficeClient.getExchangeRates().get(sr.grpc.gen.CurrencyCode.valueOf(currencyCode.value())).doubleValue();
+        try {
+            return amount / ExchangeOfficeClient.getExchangeRates().get(sr.grpc.gen.CurrencyCode.valueOf(currencyCode.value())).doubleValue();
+        }
+        catch (NullPointerException e){
+            throw new UnsupportedCurrencyException();
+        }
     }
 }

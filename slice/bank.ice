@@ -2,21 +2,16 @@
 #define BANK_ICE
 
 module Bank{
-    exception AccountException {
-        string reason;
-    }
+
     exception WrongGUIDException {}
-    exception WrongArgumentException extends AccountException {}
+    exception UnsupportedCurrencyException {}
 
     enum CurrencyCode {
         PLN,
         USD,
         EUR,
         GBP,
-        CHF,
-        JPY,
-        RUB,
-        CNY
+        CHF
     };
 
     struct Person{
@@ -42,13 +37,11 @@ module Bank{
     };
 
     interface PremiumBankAccount extends BankAccount{
-        LoanInfo getLoanInfo(string GUID, double amount, int months, CurrencyCode currencyCode) throws WrongGUIDException;
+        LoanInfo getLoanInfo(string GUID, double amount, int months, CurrencyCode currencyCode) throws WrongGUIDException, UnsupportedCurrencyException;
     };
 
-
-
     interface BankAccountFactory {
-        BankAccount* createAccount(Person person) throws WrongArgumentException;
+        BankAccount* createAccount(Person person);
     }
 };
 

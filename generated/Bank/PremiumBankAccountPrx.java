@@ -23,17 +23,23 @@ package Bank;
 public interface PremiumBankAccountPrx extends BankAccountPrx
 {
     default LoanInfo getLoanInfo(String GUID, double amount, int months, CurrencyCode currencyCode)
-        throws WrongGUIDException
+        throws UnsupportedCurrencyException,
+               WrongGUIDException
     {
         return getLoanInfo(GUID, amount, months, currencyCode, com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
     default LoanInfo getLoanInfo(String GUID, double amount, int months, CurrencyCode currencyCode, java.util.Map<String, String> context)
-        throws WrongGUIDException
+        throws UnsupportedCurrencyException,
+               WrongGUIDException
     {
         try
         {
             return _iceI_getLoanInfoAsync(GUID, amount, months, currencyCode, context, true).waitForResponseOrUserEx();
+        }
+        catch(UnsupportedCurrencyException ex)
+        {
+            throw ex;
         }
         catch(WrongGUIDException ex)
         {
@@ -73,6 +79,7 @@ public interface PremiumBankAccountPrx extends BankAccountPrx
 
     static final Class<?>[] _iceE_getLoanInfo =
     {
+        UnsupportedCurrencyException.class,
         WrongGUIDException.class
     };
 

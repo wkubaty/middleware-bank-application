@@ -36,7 +36,7 @@ public class ExchangeOfficeClient implements Runnable{
         while (response.hasNext()) {
             ExchangeRateResponse exchangeRateResponse = response.next();
             List<Currency> currenciesList = exchangeRateResponse.getCurrenciesList();
-            System.out.println("updated currency: ");
+            System.out.println("updated currencies: ");
             currenciesList.forEach(currency -> {
                 System.out.println(currency.getCurrencyCode());
                 exchangeRates.put(currency.getCurrencyCode(), new BigDecimal(currency.getValue()));

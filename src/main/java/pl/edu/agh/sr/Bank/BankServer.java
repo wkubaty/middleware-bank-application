@@ -11,10 +11,10 @@ import java.util.Set;
 
 public class BankServer {
 
-    public void start(String[] args) {
+    public void start(String[] args, int port) {
         try(Communicator communicator = Util.initialize(args)) {
 
-            ObjectAdapter adapter = communicator.createObjectAdapterWithEndpoints("Adapter1", "tcp -h localhost -p 10006:udp -h localhost -p 10006");
+            ObjectAdapter adapter = communicator.createObjectAdapterWithEndpoints("Adapter1", "tcp -h localhost -p " + port + ":udp -h localhost -p " + port);
 
             BankAccountFactoryImpl accountsServant = new BankAccountFactoryImpl();
 
@@ -32,12 +32,12 @@ public class BankServer {
     }
     public static void main(String[] args) {
         Set<CurrencyCode> supportedCurrencies = new HashSet<>();
-        supportedCurrencies.add(CurrencyCode.EUR);
         supportedCurrencies.add(CurrencyCode.USD);
+        supportedCurrencies.add(CurrencyCode.CHF);
         Thread exchangeRatesMonitorThread = new Thread(new ExchangeOfficeClient("localhost", 55555, supportedCurrencies));
         exchangeRatesMonitorThread.start();
         BankServer app = new BankServer();
-        app.start(args);
+        app.start(args, 10007);
     }
 
 }

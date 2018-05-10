@@ -19,6 +19,8 @@ public class ExchangeRatesMonitor implements Runnable{
         exchangeRates.put(DEFAULT_CURRENCY, new CurrencyValue(new BigDecimal("1.0000"), true));
         exchangeRates.put(CurrencyCode.PLN, new CurrencyValue(new BigDecimal("0.28"), true));
         exchangeRates.put(CurrencyCode.EUR, new CurrencyValue(new BigDecimal("1.1977"), true));
+        exchangeRates.put(CurrencyCode.GBP, new CurrencyValue(new BigDecimal("1.3582"), true));
+        exchangeRates.put(CurrencyCode.CHF, new CurrencyValue(new BigDecimal("0.9967"), true));
     }
 
     @Override

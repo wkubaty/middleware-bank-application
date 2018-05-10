@@ -23,7 +23,8 @@ package Bank;
 public interface PremiumBankAccount extends BankAccount
 {
     LoanInfo getLoanInfo(String GUID, double amount, int months, CurrencyCode currencyCode, com.zeroc.Ice.Current current)
-        throws WrongGUIDException;
+        throws UnsupportedCurrencyException,
+               WrongGUIDException;
 
     static final String[] _iceIds =
     {

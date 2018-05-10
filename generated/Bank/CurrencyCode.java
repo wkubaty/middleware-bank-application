@@ -26,10 +26,7 @@ public enum CurrencyCode implements java.io.Serializable
     USD(1),
     EUR(2),
     GBP(3),
-    CHF(4),
-    JPY(5),
-    RUB(6),
-    CNY(7);
+    CHF(4);
 
     public int value()
     {
@@ -50,12 +47,6 @@ public enum CurrencyCode implements java.io.Serializable
             return GBP;
         case 4:
             return CHF;
-        case 5:
-            return JPY;
-        case 6:
-            return RUB;
-        case 7:
-            return CNY;
         }
         return null;
     }
@@ -67,24 +58,24 @@ public enum CurrencyCode implements java.io.Serializable
 
     public void ice_write(com.zeroc.Ice.OutputStream ostr)
     {
-        ostr.writeEnum(_value, 7);
+        ostr.writeEnum(_value, 4);
     }
 
     public static void ice_write(com.zeroc.Ice.OutputStream ostr, CurrencyCode v)
     {
         if(v == null)
         {
-            ostr.writeEnum(Bank.CurrencyCode.PLN.value(), 7);
+            ostr.writeEnum(Bank.CurrencyCode.PLN.value(), 4);
         }
         else
         {
-            ostr.writeEnum(v.value(), 7);
+            ostr.writeEnum(v.value(), 4);
         }
     }
 
     public static CurrencyCode ice_read(com.zeroc.Ice.InputStream istr)
     {
-        int v = istr.readEnum(7);
+        int v = istr.readEnum(4);
         return validate(v);
     }
 

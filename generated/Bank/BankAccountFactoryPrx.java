@@ -23,26 +23,13 @@ package Bank;
 public interface BankAccountFactoryPrx extends com.zeroc.Ice.ObjectPrx
 {
     default BankAccountPrx createAccount(Person person)
-        throws WrongArgumentException
     {
         return createAccount(person, com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
     default BankAccountPrx createAccount(Person person, java.util.Map<String, String> context)
-        throws WrongArgumentException
     {
-        try
-        {
-            return _iceI_createAccountAsync(person, context, true).waitForResponseOrUserEx();
-        }
-        catch(WrongArgumentException ex)
-        {
-            throw ex;
-        }
-        catch(com.zeroc.Ice.UserException ex)
-        {
-            throw new com.zeroc.Ice.UnknownUserException(ex.ice_id(), ex);
-        }
+        return _iceI_createAccountAsync(person, context, true).waitForResponse();
     }
 
     default java.util.concurrent.CompletableFuture<BankAccountPrx> createAccountAsync(Person person)
@@ -57,7 +44,7 @@ public interface BankAccountFactoryPrx extends com.zeroc.Ice.ObjectPrx
 
     default com.zeroc.IceInternal.OutgoingAsync<BankAccountPrx> _iceI_createAccountAsync(Person iceP_person, java.util.Map<String, String> context, boolean sync)
     {
-        com.zeroc.IceInternal.OutgoingAsync<BankAccountPrx> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "createAccount", null, sync, _iceE_createAccount);
+        com.zeroc.IceInternal.OutgoingAsync<BankAccountPrx> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "createAccount", null, sync, null);
         f.invoke(true, context, null, ostr -> {
                      Person.ice_write(ostr, iceP_person);
                  }, istr -> {
@@ -67,11 +54,6 @@ public interface BankAccountFactoryPrx extends com.zeroc.Ice.ObjectPrx
                  });
         return f;
     }
-
-    static final Class<?>[] _iceE_createAccount =
-    {
-        WrongArgumentException.class
-    };
 
     /**
      * Contacts the remote server to verify that the object implements this type.
