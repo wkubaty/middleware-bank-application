@@ -20,8 +20,19 @@
 
 package Bank;
 
-public class Person extends com.zeroc.Ice.Value
+public class Person implements java.lang.Cloneable,
+                               java.io.Serializable
 {
+    public long PESEL;
+
+    public String firstName;
+
+    public String lastName;
+
+    public double monthlyIncome;
+
+    public String GUID;
+
     public Person()
     {
         this.firstName = "";
@@ -29,7 +40,7 @@ public class Person extends com.zeroc.Ice.Value
         this.GUID = "";
     }
 
-    public Person(long PESEL, String firstName, String lastName, long monthlyIncome, String GUID)
+    public Person(long PESEL, String firstName, String lastName, double monthlyIncome, String GUID)
     {
         this.PESEL = PESEL;
         this.firstName = firstName;
@@ -38,55 +49,151 @@ public class Person extends com.zeroc.Ice.Value
         this.GUID = GUID;
     }
 
-    public long PESEL;
+    public boolean equals(java.lang.Object rhs)
+    {
+        if(this == rhs)
+        {
+            return true;
+        }
+        Person r = null;
+        if(rhs instanceof Person)
+        {
+            r = (Person)rhs;
+        }
 
-    public String firstName;
+        if(r != null)
+        {
+            if(this.PESEL != r.PESEL)
+            {
+                return false;
+            }
+            if(this.firstName != r.firstName)
+            {
+                if(this.firstName == null || r.firstName == null || !this.firstName.equals(r.firstName))
+                {
+                    return false;
+                }
+            }
+            if(this.lastName != r.lastName)
+            {
+                if(this.lastName == null || r.lastName == null || !this.lastName.equals(r.lastName))
+                {
+                    return false;
+                }
+            }
+            if(this.monthlyIncome != r.monthlyIncome)
+            {
+                return false;
+            }
+            if(this.GUID != r.GUID)
+            {
+                if(this.GUID == null || r.GUID == null || !this.GUID.equals(r.GUID))
+                {
+                    return false;
+                }
+            }
 
-    public String lastName;
+            return true;
+        }
 
-    public long monthlyIncome;
+        return false;
+    }
 
-    public String GUID;
+    public int hashCode()
+    {
+        int h_ = 5381;
+        h_ = com.zeroc.IceInternal.HashUtil.hashAdd(h_, "::Bank::Person");
+        h_ = com.zeroc.IceInternal.HashUtil.hashAdd(h_, PESEL);
+        h_ = com.zeroc.IceInternal.HashUtil.hashAdd(h_, firstName);
+        h_ = com.zeroc.IceInternal.HashUtil.hashAdd(h_, lastName);
+        h_ = com.zeroc.IceInternal.HashUtil.hashAdd(h_, monthlyIncome);
+        h_ = com.zeroc.IceInternal.HashUtil.hashAdd(h_, GUID);
+        return h_;
+    }
 
     public Person clone()
     {
-        return (Person)super.clone();
+        Person c = null;
+        try
+        {
+            c = (Person)super.clone();
+        }
+        catch(CloneNotSupportedException ex)
+        {
+            assert false; // impossible
+        }
+        return c;
     }
 
-    public static String ice_staticId()
+    public void ice_writeMembers(com.zeroc.Ice.OutputStream ostr)
     {
-        return "::Bank::Person";
+        ostr.writeLong(this.PESEL);
+        ostr.writeString(this.firstName);
+        ostr.writeString(this.lastName);
+        ostr.writeDouble(this.monthlyIncome);
+        ostr.writeString(this.GUID);
     }
 
-    @Override
-    public String ice_id()
+    public void ice_readMembers(com.zeroc.Ice.InputStream istr)
     {
-        return ice_staticId();
+        this.PESEL = istr.readLong();
+        this.firstName = istr.readString();
+        this.lastName = istr.readString();
+        this.monthlyIncome = istr.readDouble();
+        this.GUID = istr.readString();
     }
 
-    public static final long serialVersionUID = -1084955475442412861L;
-
-    @Override
-    protected void _iceWriteImpl(com.zeroc.Ice.OutputStream ostr_)
+    static public void ice_write(com.zeroc.Ice.OutputStream ostr, Person v)
     {
-        ostr_.startSlice(ice_staticId(), -1, true);
-        ostr_.writeLong(PESEL);
-        ostr_.writeString(firstName);
-        ostr_.writeString(lastName);
-        ostr_.writeLong(monthlyIncome);
-        ostr_.writeString(GUID);
-        ostr_.endSlice();
+        if(v == null)
+        {
+            _nullMarshalValue.ice_writeMembers(ostr);
+        }
+        else
+        {
+            v.ice_writeMembers(ostr);
+        }
     }
 
-    @Override
-    protected void _iceReadImpl(com.zeroc.Ice.InputStream istr_)
+    static public Person ice_read(com.zeroc.Ice.InputStream istr)
     {
-        istr_.startSlice();
-        PESEL = istr_.readLong();
-        firstName = istr_.readString();
-        lastName = istr_.readString();
-        monthlyIncome = istr_.readLong();
-        GUID = istr_.readString();
-        istr_.endSlice();
+        Person v = new Person();
+        v.ice_readMembers(istr);
+        return v;
     }
+
+    static public void ice_write(com.zeroc.Ice.OutputStream ostr, int tag, java.util.Optional<Person> v)
+    {
+        if(v != null && v.isPresent())
+        {
+            ice_write(ostr, tag, v.get());
+        }
+    }
+
+    static public void ice_write(com.zeroc.Ice.OutputStream ostr, int tag, Person v)
+    {
+        if(ostr.writeOptional(tag, com.zeroc.Ice.OptionalFormat.FSize))
+        {
+            int pos = ostr.startSize();
+            ice_write(ostr, v);
+            ostr.endSize(pos);
+        }
+    }
+
+    static public java.util.Optional<Person> ice_read(com.zeroc.Ice.InputStream istr, int tag)
+    {
+        if(istr.readOptional(tag, com.zeroc.Ice.OptionalFormat.FSize))
+        {
+            istr.skip(4);
+            return java.util.Optional.of(Person.ice_read(istr));
+        }
+        else
+        {
+            return java.util.Optional.empty();
+        }
+    }
+
+    private static final Person _nullMarshalValue = new Person();
+
+    public static final long serialVersionUID = -3933486040436845799L;
 }

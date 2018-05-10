@@ -22,13 +22,13 @@ package Bank;
 
 public interface PremiumBankAccountPrx extends BankAccountPrx
 {
-    default String getLoanInfo(String GUID, long amount, int months, CurrencyCode currencyCode)
+    default LoanInfo getLoanInfo(String GUID, double amount, int months, CurrencyCode currencyCode)
         throws WrongGUIDException
     {
         return getLoanInfo(GUID, amount, months, currencyCode, com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
-    default String getLoanInfo(String GUID, long amount, int months, CurrencyCode currencyCode, java.util.Map<String, String> context)
+    default LoanInfo getLoanInfo(String GUID, double amount, int months, CurrencyCode currencyCode, java.util.Map<String, String> context)
         throws WrongGUIDException
     {
         try
@@ -45,27 +45,27 @@ public interface PremiumBankAccountPrx extends BankAccountPrx
         }
     }
 
-    default java.util.concurrent.CompletableFuture<java.lang.String> getLoanInfoAsync(String GUID, long amount, int months, CurrencyCode currencyCode)
+    default java.util.concurrent.CompletableFuture<LoanInfo> getLoanInfoAsync(String GUID, double amount, int months, CurrencyCode currencyCode)
     {
         return _iceI_getLoanInfoAsync(GUID, amount, months, currencyCode, com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
     }
 
-    default java.util.concurrent.CompletableFuture<java.lang.String> getLoanInfoAsync(String GUID, long amount, int months, CurrencyCode currencyCode, java.util.Map<String, String> context)
+    default java.util.concurrent.CompletableFuture<LoanInfo> getLoanInfoAsync(String GUID, double amount, int months, CurrencyCode currencyCode, java.util.Map<String, String> context)
     {
         return _iceI_getLoanInfoAsync(GUID, amount, months, currencyCode, context, false);
     }
 
-    default com.zeroc.IceInternal.OutgoingAsync<java.lang.String> _iceI_getLoanInfoAsync(String iceP_GUID, long iceP_amount, int iceP_months, CurrencyCode iceP_currencyCode, java.util.Map<String, String> context, boolean sync)
+    default com.zeroc.IceInternal.OutgoingAsync<LoanInfo> _iceI_getLoanInfoAsync(String iceP_GUID, double iceP_amount, int iceP_months, CurrencyCode iceP_currencyCode, java.util.Map<String, String> context, boolean sync)
     {
-        com.zeroc.IceInternal.OutgoingAsync<java.lang.String> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getLoanInfo", null, sync, _iceE_getLoanInfo);
+        com.zeroc.IceInternal.OutgoingAsync<LoanInfo> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getLoanInfo", null, sync, _iceE_getLoanInfo);
         f.invoke(true, context, null, ostr -> {
                      ostr.writeString(iceP_GUID);
-                     ostr.writeLong(iceP_amount);
+                     ostr.writeDouble(iceP_amount);
                      ostr.writeInt(iceP_months);
                      CurrencyCode.ice_write(ostr, iceP_currencyCode);
                  }, istr -> {
-                     String ret;
-                     ret = istr.readString();
+                     LoanInfo ret;
+                     ret = LoanInfo.ice_read(istr);
                      return ret;
                  });
         return f;

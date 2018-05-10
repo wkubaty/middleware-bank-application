@@ -22,7 +22,8 @@ package Bank;
 
 public interface BankAccountFactory extends com.zeroc.Ice.Object
 {
-    BankAccountPrx createAccount(Person person, com.zeroc.Ice.Current current);
+    BankAccountPrx createAccount(Person person, com.zeroc.Ice.Current current)
+        throws WrongArgumentException;
 
     static final String[] _iceIds =
     {
@@ -48,14 +49,13 @@ public interface BankAccountFactory extends com.zeroc.Ice.Object
     }
 
     static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_createAccount(BankAccountFactory obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
+        throws com.zeroc.Ice.UserException
     {
         com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
         com.zeroc.Ice.InputStream istr = inS.startReadParams();
-        final com.zeroc.IceInternal.Holder<Person> icePP_person = new com.zeroc.IceInternal.Holder<>();
-        istr.readValue(v -> icePP_person.value = v, Person.class);
-        istr.readPendingValues();
+        Person iceP_person;
+        iceP_person = Person.ice_read(istr);
         inS.endReadParams();
-        Person iceP_person = icePP_person.value;
         BankAccountPrx ret = obj.createAccount(iceP_person, current);
         com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();
         ostr.writeProxy(ret);

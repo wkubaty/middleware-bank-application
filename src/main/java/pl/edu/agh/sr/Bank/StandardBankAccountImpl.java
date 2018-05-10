@@ -8,7 +8,7 @@ import com.zeroc.Ice.Current;
 
 public class StandardBankAccountImpl implements BankAccount {
     private double balance;
-    private Person person;
+    protected Person person;
 
     public StandardBankAccountImpl(Person person) {
         this.person = person;

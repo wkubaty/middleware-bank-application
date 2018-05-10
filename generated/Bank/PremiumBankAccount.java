@@ -22,7 +22,7 @@ package Bank;
 
 public interface PremiumBankAccount extends BankAccount
 {
-    String getLoanInfo(String GUID, long amount, int months, CurrencyCode currencyCode, com.zeroc.Ice.Current current)
+    LoanInfo getLoanInfo(String GUID, double amount, int months, CurrencyCode currencyCode, com.zeroc.Ice.Current current)
         throws WrongGUIDException;
 
     static final String[] _iceIds =
@@ -55,17 +55,17 @@ public interface PremiumBankAccount extends BankAccount
         com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
         com.zeroc.Ice.InputStream istr = inS.startReadParams();
         String iceP_GUID;
-        long iceP_amount;
+        double iceP_amount;
         int iceP_months;
         CurrencyCode iceP_currencyCode;
         iceP_GUID = istr.readString();
-        iceP_amount = istr.readLong();
+        iceP_amount = istr.readDouble();
         iceP_months = istr.readInt();
         iceP_currencyCode = CurrencyCode.ice_read(istr);
         inS.endReadParams();
-        String ret = obj.getLoanInfo(iceP_GUID, iceP_amount, iceP_months, iceP_currencyCode, current);
+        LoanInfo ret = obj.getLoanInfo(iceP_GUID, iceP_amount, iceP_months, iceP_currencyCode, current);
         com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();
-        ostr.writeString(ret);
+        LoanInfo.ice_write(ostr, ret);
         inS.endWriteParams(ostr);
         return inS.setResult(ostr);
     }

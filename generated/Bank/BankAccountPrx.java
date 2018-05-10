@@ -97,10 +97,9 @@ public interface BankAccountPrx extends com.zeroc.Ice.ObjectPrx
     {
         com.zeroc.IceInternal.OutgoingAsync<Person> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getOwnerInfo", null, sync, null);
         f.invoke(true, context, null, null, istr -> {
-                     final com.zeroc.IceInternal.Holder<Person> ret = new com.zeroc.IceInternal.Holder<>();
-                     istr.readValue(v -> ret.value = v, Person.class);
-                     istr.readPendingValues();
-                     return ret.value;
+                     Person ret;
+                     ret = Person.ice_read(istr);
+                     return ret;
                  });
         return f;
     }

@@ -71,8 +71,7 @@ public interface BankAccount extends com.zeroc.Ice.Object
         inS.readEmptyParams();
         Person ret = obj.getOwnerInfo(current);
         com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();
-        ostr.writeValue(ret);
-        ostr.writePendingValues();
+        Person.ice_write(ostr, ret);
         inS.endWriteParams(ostr);
         return inS.setResult(ostr);
     }

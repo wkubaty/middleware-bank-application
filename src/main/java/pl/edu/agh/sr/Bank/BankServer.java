@@ -4,6 +4,10 @@ import com.zeroc.Ice.Communicator;
 import com.zeroc.Ice.Identity;
 import com.zeroc.Ice.ObjectAdapter;
 import com.zeroc.Ice.Util;
+import sr.grpc.gen.CurrencyCode;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class BankServer {
 
@@ -26,9 +30,14 @@ public class BankServer {
             e.printStackTrace();
         }
     }
-
     public static void main(String[] args) {
+        Set<CurrencyCode> supportedCurrencies = new HashSet<>();
+        supportedCurrencies.add(CurrencyCode.EUR);
+        supportedCurrencies.add(CurrencyCode.USD);
+        Thread exchangeRatesMonitorThread = new Thread(new ExchangeOfficeClient("localhost", 55555, supportedCurrencies));
+        exchangeRatesMonitorThread.start();
         BankServer app = new BankServer();
         app.start(args);
     }
+
 }

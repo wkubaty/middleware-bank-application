@@ -19,7 +19,18 @@ module Bank{
         CNY
     };
 
-    class Person;
+    struct Person{
+            long PESEL;
+            string firstName;
+            string lastName;
+            double monthlyIncome;
+            string GUID;
+        };
+
+    struct LoanInfo {
+        double defaultCurrencyCost;
+        double chosenCurrencyCost;
+    };
 
     interface BankAccount {
         double getBalanceInfo(string GUID) throws WrongGUIDException;
@@ -31,21 +42,14 @@ module Bank{
     };
 
     interface PremiumBankAccount extends BankAccount{
-        string getLoanInfo(string GUID, long amount, int months, CurrencyCode currencyCode) throws WrongGUIDException;
+        LoanInfo getLoanInfo(string GUID, double amount, int months, CurrencyCode currencyCode) throws WrongGUIDException;
     };
 
-    class Person{
-        long PESEL;
-        string firstName;
-        string lastName;
-        long monthlyIncome;
-        string GUID;
-    };
+
 
     interface BankAccountFactory {
-        BankAccount* createAccount(Person person);
+        BankAccount* createAccount(Person person) throws WrongArgumentException;
     }
-
 };
 
 #endif
