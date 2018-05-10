@@ -6,13 +6,15 @@ import Bank.StandardBankAccount;
 import Bank.WrongGUIDException;
 import com.zeroc.Ice.Current;
 
+import java.util.Random;
+
 public class StandardBankAccountImpl implements BankAccount {
     private double balance;
     protected Person person;
 
     public StandardBankAccountImpl(Person person) {
         this.person = person;
-        balance = Math.random();
+        balance = new Random().nextDouble() * 10000.0;
     }
 
     @Override
