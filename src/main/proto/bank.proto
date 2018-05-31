@@ -46,7 +46,7 @@ enum CurrencyCode {
 
 message Currency {
     CurrencyCode currency_code = 1;
-    string value = 2; // easy to convert to BigDecimal
+    string value = 2;
 }
 
 message ExchangeRateRequest {

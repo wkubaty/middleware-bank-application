@@ -14,13 +14,13 @@ module Bank{
         CHF
     };
 
-    struct Person{
-            long PESEL;
-            string firstName;
-            string lastName;
-            double monthlyIncome;
-            string GUID;
-        };
+    struct Person {
+        long PESEL;
+        string firstName;
+        string lastName;
+        double monthlyIncome;
+        string GUID;
+    };
 
     struct LoanInfo {
         double defaultCurrencyCost;
@@ -32,11 +32,7 @@ module Bank{
         Person getOwnerInfo();
     };
 
-    interface StandardBankAccount extends BankAccount {
-
-    };
-
-    interface PremiumBankAccount extends BankAccount{
+    interface PremiumBankAccount extends BankAccount {
         LoanInfo getLoanInfo(string GUID, double amount, int months, CurrencyCode currencyCode) throws WrongGUIDException, UnsupportedCurrencyException;
     };
 

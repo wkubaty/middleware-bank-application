@@ -6,6 +6,11 @@ import com.zeroc.Ice.ObjectAdapter;
 import com.zeroc.Ice.Util;
 import sr.grpc.gen.CurrencyCode;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Base64;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,14 +35,14 @@ public class BankServer {
             e.printStackTrace();
         }
     }
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Set<CurrencyCode> supportedCurrencies = new HashSet<>();
         supportedCurrencies.add(CurrencyCode.USD);
-        supportedCurrencies.add(CurrencyCode.CHF);
+        supportedCurrencies.add(CurrencyCode.GBP);
         Thread exchangeRatesMonitorThread = new Thread(new ExchangeOfficeClient("localhost", 55555, supportedCurrencies));
         exchangeRatesMonitorThread.start();
         BankServer app = new BankServer();
-        app.start(args, 10007);
+        app.start(args, 10006);
     }
 
 }

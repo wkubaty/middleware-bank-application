@@ -48,7 +48,7 @@ public class Client {
 
                     }
                     else if(line.equals("switch")){
-                        runSwitchCommand(communicator);
+                        runSwitchCommand(communicator, port);
                     }
                     else {
                         System.out.println("Type: 'new', 'balance', 'loan' or 'switch");
@@ -139,7 +139,7 @@ public class Client {
             System.out.println("Choose account first!");
         }
     }
-    private void runSwitchCommand(Communicator communicator) throws IOException {
+    private void runSwitchCommand(Communicator communicator, int port) throws IOException {
         try{
             System.out.print("Enter PESEL: ");
             long PESEL = Long.parseLong(in.readLine());
@@ -147,7 +147,7 @@ public class Client {
             String accountType = in.readLine();
             if("standard".equals(accountType) || "premium".equals(accountType)){
                 try{
-                    ObjectPrx objectPrx = communicator.stringToProxy(accountType + "/" + PESEL + ":tcp -h localhost -p 10006:udp -h localhost -p 10006");
+                    ObjectPrx objectPrx = communicator.stringToProxy(accountType + "/" + PESEL + ":tcp -h localhost -p " + port + ":udp -h localhost -p " + port);
                     bankAccountPrx = BankAccountPrx.checkedCast(objectPrx); // switched account
                 }
                 catch (com.zeroc.Ice.ObjectNotExistException e){

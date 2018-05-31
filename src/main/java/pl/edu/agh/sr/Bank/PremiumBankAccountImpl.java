@@ -24,7 +24,7 @@ public class PremiumBankAccountImpl extends StandardBankAccountImpl implements P
         }
     }
     private double getLoanCostInChosenCurrency(double amount, CurrencyCode currencyCode) throws  UnsupportedCurrencyException{
-        if(currencyCode.equals(DEFAULT_CURRENCY.toString())){
+        if(currencyCode.toString().equals(DEFAULT_CURRENCY.toString())){
             return amount;
         }
         try {
